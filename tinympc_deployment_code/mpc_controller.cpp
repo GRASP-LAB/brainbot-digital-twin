@@ -92,23 +92,31 @@ void TinyMpcController::toUnicycle(float ax, float ay, float yaw,
     float vx_tgt = (float)_x0[2] + ax * dt;
     float vy_tgt = (float)_x0[3] + ay * dt;
 
+    // Body-frame linear speed
     
+
     // Target heading and angular rate
     float theta_tgt   = atan2f(vy_tgt, vx_tgt);
     float delta_theta = wrap_angle(theta_tgt - yaw);
     w_cmd = delta_theta / dt;
 
-    float cr;
-    if (w_cmd<0) {
-      cr = -0.0161;
+    
+    //v_cmd = sqrtf(vx_tgt * vx_tgt + vy_tgt * vy_tgt);
+
+    //v = vx * cos(theta) + vy * sin(theta) - cR * omega
+    //where cR is -0.0161 if omega>0 and cR is 0.0145 if omega<0
+    int wsign = (w_cmd > 0) - (w_cmd < 0);
+
+    float wcR;
+    
+    if (w_cmd<0){
+        wcR = 0.0145 * w_cmd;
     }
     else{
-      cr = 0.0145;
+        wcR = -0.0161 * w_cmd;
     }
-      
-    v_cmd = vx_tgt * cos(theta_tgt) + vy_tgt * sin(theta_tgt) - cr * w_cmd;
 
-    
+    v_cmd = vx_tgt * cos(theta_tgt) + vy_tgt * sin(theta_tgt) - wcR;
     // Clamp to physical limits
     v_cmd = clampf(v_cmd, MPC_MIN_VEL, MPC_MAX_VEL);
     w_cmd = clampf(w_cmd, MPC_MIN_OMEGA, MPC_MAX_OMEGA);

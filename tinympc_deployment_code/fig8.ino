@@ -23,7 +23,7 @@
 #define START_BYTE 0xAA
 #define END_BYTE 0x55
 #define PACKET_SIZE 13
-#define PXM 0.00037764
+#define PXM 0.0003788
 #define STATUS_LED PC11
 
 HardwareSerial SerialLP1(PC0, PB5);

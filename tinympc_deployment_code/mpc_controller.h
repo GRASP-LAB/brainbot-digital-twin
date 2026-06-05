@@ -57,6 +57,8 @@ static constexpr int MPC_NU     = 2;   // inputs: [ax, ay]
 static constexpr int MPC_N      = 10;  // knotpoints (horizon length)
 
 // Constraint bounds (match generator script)
+//static constexpr float MPC_MIN_VEL   = 0.048f;   // m/s
+//static constexpr float MPC_MAX_VEL   = 0.115f;   // m/s
 static constexpr float MPC_MIN_VEL   = 0.034f;   // m/s
 static constexpr float MPC_MAX_VEL   = 0.135f;   // m/s
 static constexpr float MPC_MAX_ACCEL = 1.0f;   // m/s^2

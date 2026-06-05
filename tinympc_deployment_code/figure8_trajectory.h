@@ -5,14 +5,13 @@
 // x(t) = A * sin(w*t)
 // y(t) = 0.5 * B * sin(2*w*t) * (1 - alpha * sin^2 (w*t))
 // where w = 2*pi / period
-
 #include <stdint.h>
 #include <math.h>
 
 // Arena & control settings
-static constexpr float F8_A        = 0.15f;   // X amplitude
-static constexpr float F8_B        = 0.30f;   // Y amplitude
-static constexpr float F8_PERIOD   = 28.0f;   // Seconds per loop
+static constexpr float F8_A        = 0.15f; //0.20f;   // X amplitude
+static constexpr float F8_B        = 0.30f; //0.40f;   // Y amplitude 
+static constexpr float F8_PERIOD   = 28.0f; //32.0f;   // Seconds per loop
 static constexpr float F8_DT       = 0.1f;    // MPC Ts
 static constexpr float F8_CENTER_X = 0.0f;
 static constexpr float F8_CENTER_Y = 0.0f;
@@ -39,7 +38,7 @@ public:
 
         for (int i = 0; i < F8_STEPS; ++i) {
             const float t     = i * F8_DT;
-            const float wt    = omega * t;
+            const float wt    = -omega * t;
             const float w2t   = 2.0f * wt;
 
             const float swt = sinf(wt); 
