@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import seaborn as sns
+from pathlib import Path
+
+base = Path(__file__).resolve().parent
+
 sns.set_theme(style="white")
 cmap = sns.color_palette("mako", as_cmap=True)
 
@@ -12,9 +16,9 @@ plt.rcParams.update({
     "font.family": "serif",
     "font.serif": ["Computer Modern Roman"],
     "font.size": 16,
-    "axes.labelsize": 16,
-    "xtick.labelsize": 16,
-    "ytick.labelsize": 16,
+    "axes.labelsize": 14,
+    "xtick.labelsize": 14,
+    "ytick.labelsize": 14,
     "legend.fontsize": 14,
     "axes.titlesize": 16,
     "lines.linewidth": 1.0, 
@@ -24,9 +28,9 @@ fig, ax = plt.subplots(figsize=(12, 5), nrows=1, ncols=2)
 
 ### Velocity model: 3rd-order bivariate polynomial
 # ── 1. Load data ─────────────────────────────────────────────────────────────
-velocity_table = np.load("Calibration/TinyMPC/generate_LUT/vCOM_table_latest.npy")  # shape (7, 7)
+velocity_table = np.load(base / "vCOM_table_latest.npy")  # shape (7, 7)
 print(np.round(velocity_table, 4))
-power          = np.load("Calibration/TinyMPC/generate_LUT/motorpower_table_latest.npy")     # shape (7,)
+power = np.load(base / "motorpower_table_latest.npy")     # shape (7,)
 
 ### To verify the meshgrid construction, print the grids, and notice that (V_L,V_R) = (60,80) corresponds to almost straight motion.
 ### i.e., left motor is stronger than the right motor.
@@ -97,7 +101,7 @@ VEL_fit = velocity_model((PL, PR), *popt).reshape(PL.shape)
 levels=np.linspace(4.8, 11.5, 51)
 cf = ax[0].contourf(PL, PR, VEL_fit, levels=levels, cmap=cmap, extend="both")
 cbar = plt.colorbar(cf, ax=ax[0], format='%.1f')
-cbar.set_label(r"$v$ [cm/s]")
+cbar.set_label(r"$v\,(cm/s)$")
 
 # optional: overlay original sampled grid points
 ax[0].scatter(pL_flat, pR_flat, c=vel_flat, cmap=cmap, edgecolor="k", s=30, vmin=4.8, vmax=11.5)
@@ -105,15 +109,15 @@ ax[0].scatter(pL_flat, pR_flat, c=vel_flat, cmap=cmap, edgecolor="k", s=30, vmin
 ax[0].set_xlim(power.min()-2, power.max()+2)
 ax[0].set_ylim(power.min()-2, power.max()+2)
 
-ax[0].set_xlabel(r"$V_L$")
-ax[0].set_ylabel(r"$V_R$")
+ax[0].set_xlabel(r"$V_\mathrm{L}$")
+ax[0].set_ylabel(r"$V_\mathrm{R}$")
 # ax[0].set_title("Calibration for velocity (cm/s)")
 
 
 # #### Angular velocity fit: 2nd-order bivariate polynomial
 # # ── 1. Load data ────────────────────────────────────────────────────────────
-omega_table = np.load("Calibration/TinyMPC/generate_LUT/omega_table_latest.npy")   # shape (7, 7)
-power       = np.load("Calibration/TinyMPC/generate_LUT/motorpower_table_latest.npy")         # shape (7,)  e.g. [60..120]
+omega_table = np.load(base / "omega_table_latest.npy")   # shape (7, 7)
+power       = np.load(base / "motorpower_table_latest.npy")         # shape (7,)  e.g. [60..120]
 
 ### To verify the meshgrid construction, print the grids, and notice that (V_L,V_R) = (60,60) corresponds to clockwise motion (-ve omega).
 ### i.e., left motor is stronger than the right motor.
@@ -178,7 +182,7 @@ OMEGA_fit = omega_model((PL, PR), *popt).reshape(PL.shape)
 levels = np.linspace(-3.46, 1.43, 51)
 cf = ax[1].contourf(PL, PR, OMEGA_fit, levels=levels, cmap=cmap, extend="both")
 cbar = plt.colorbar(cf, ax=ax[1], format='%.2f')
-cbar.set_label(r"$\omega$ [rad/s]")
+cbar.set_label(r"$\omega\,(rad/s)$")
 
 # optional: overlay original sampled grid points
 ax[1].scatter(pL_flat, pR_flat, c=omega_flat, cmap=cmap, edgecolor="k", s=30, vmin=-3.46, vmax=1.43)
@@ -186,12 +190,12 @@ ax[1].scatter(pL_flat, pR_flat, c=omega_flat, cmap=cmap, edgecolor="k", s=30, vm
 ax[1].set_xlim(power.min()-2, power.max()+2)
 ax[1].set_ylim(power.min()-2, power.max()+2)
 
-ax[1].set_xlabel(r"$V_L$")
-ax[1].set_ylabel(r"$V_R$")
+ax[1].set_xlabel(r"$V_\mathrm{L}$")
+ax[1].set_ylabel(r"$V_\mathrm{R}$")
 
 fig.text(0.01, 0.95, r'(a)', fontsize=16)
 fig.text(0.5, 0.95, r'(b)', fontsize=16)
 fig.tight_layout()
-fig.savefig("Calibration/TinyMPC/generate_LUT/Calibration_maps.pdf", dpi=600)
+fig.savefig(base / "Calibration_maps.pdf", dpi=600)
 plt.show()
 

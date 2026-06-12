@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.optimize import least_squares
+from pathlib import Path
 
+base = Path(__file__).resolve().parent
 # -----------------------------
 # 1) Your forward model
 # -----------------------------
@@ -48,8 +50,6 @@ def solve_voltages(v_des, omega_des,
     VL, VR = res.x
     return VL, VR, res
 
-from scipy.optimize import root
-
 def F(x, v_d, w_d):
     VL, VR = x
     v, omega = forward_model(VL, VR)
@@ -58,8 +58,8 @@ def F(x, v_d, w_d):
 
 if __name__ == "__main__":
 
-    omega_all = np.load("Calibration/TinyMPC/generate_LUT/omega_table_latest.npy")  #[rad/s]
-    velocity_all = np.load("Calibration/TinyMPC/generate_LUT/vCOM_table_latest.npy") #[m/s]
+    omega_all = np.load(base / "omega_table_latest.npy")  #[rad/s]
+    velocity_all = np.load(base / "vCOM_table_latest.npy") #[m/s]
 
     vmin = np.min(velocity_all)
     vmax = np.max(velocity_all)
@@ -91,8 +91,8 @@ if __name__ == "__main__":
     print("Lookup table for VR:")
     print(VR_table)
 
-    np.savetxt("Calibration/TinyMPC/generate_LUT/VL_table.txt", VL_table, fmt="%.3f", delimiter=",")
-    np.savetxt("Calibration/TinyMPC/generate_LUT/VR_table.txt", VR_table, fmt="%.3f", delimiter=",")
+    np.savetxt(base / "VL_table.txt", VL_table, fmt="%.3f", delimiter=",")
+    np.savetxt(base / "VR_table.txt", VR_table, fmt="%.3f", delimiter=",")
 
     print("omega range =", omegamin, "to", omegamax, "rad/s")
     print("velocity range =", vmin, "to", vmax, "m/s")

@@ -1,5 +1,8 @@
 from pathlib import Path
 import numpy as np
+from pathlib import Path
+
+base = Path(__file__).resolve().parent
 
 def save_lut_as_arduino_header(
     path_h: str | Path,
@@ -31,7 +34,7 @@ def save_lut_as_arduino_header(
     # Format metadata
     dims = a_u8.shape
     decl_dims = "".join([f"[{d}]" for d in dims])
-    progmem_str = " PROGMEM" if progmem else ""
+    # progmem_str = " PROGMEM" if progmem else ""
 
     lines = []
     lines.append(f"#ifndef {include_guard}")
@@ -46,7 +49,7 @@ def save_lut_as_arduino_header(
         lines.append(f"#define {name.upper()}_NW ({dims[1]})")
     lines.append("")
 
-    lines.append(f"const uint8_t {name}{decl_dims}{progmem_str} = {{")
+    # lines.append(f"const uint8_t {name}{decl_dims}{progmem_str} = {{")
 
     if a_u8.ndim == 1:
         row = ", ".join(str(int(x)) for x in a_u8.tolist())
@@ -66,12 +69,8 @@ def save_lut_as_arduino_header(
 
 if __name__ == "__main__":
 
-    VR_table = np.loadtxt("Calibration/TinyMPC/generate_LUT/VR_table.txt", delimiter=",")
-    VL_table = np.loadtxt("Calibration/TinyMPC/generate_LUT/VL_table.txt", delimiter=",")
+    VR_table = np.loadtxt(base / "VR_table.txt", delimiter=",")
+    VL_table = np.loadtxt(base / "VL_table.txt", delimiter=",")
 
-    save_lut_as_arduino_header("Calibration/TinyMPC/generate_LUT/VL_LUT.h", "VL_LUT", np.round(VL_table))
-    save_lut_as_arduino_header("Calibration/TinyMPC/generate_LUT/VR_LUT.h", "VR_LUT", np.round(VR_table))
-
-# VL_lut and VR_lut are your numpy arrays (e.g., shape (NV, NW))
-# save_lut_as_arduino_header("VL_lut.h", "VL_LUT", VL_lut)
-# save_lut_as_arduino_header("VR_lut.h", "VR_LUT", VR_lut)
+    save_lut_as_arduino_header(base / "VL_LUT.h", "VL_LUT", np.round(VL_table))
+    save_lut_as_arduino_header(base / "VR_LUT.h", "VR_LUT", np.round(VR_table))
