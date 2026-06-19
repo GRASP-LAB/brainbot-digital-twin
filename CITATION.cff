@@ -1,0 +1,56 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Brainbot digital twin code
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: 'Isa '
+    family-names: Mammadli
+    affiliation: >-
+      PULS, Institute for Theoretical Physics, FAU
+      Erlangen-Nürnberg, 91058, Erlangen, Germany
+  - given-names: Prajol
+    family-names: Shrestha
+    affiliation: >-
+      Pattern Recognition Lab, Department of Computer
+      Science, FAU Erlangen-Nürnberg, Erlangen, Germany
+  - given-names: Jayant
+    family-names: Pande
+    affiliation: >-
+      Department of Physical and Natural Sciences, FLAME
+      University, Pune, India
+  - given-names: Filip
+    family-names: Novkoski
+    affiliation: >-
+      PULS, Institute for Theoretical Physics, FAU
+      Erlangen-Nürnberg, 91058, Erlangen, Germany
+  - given-names: Siddhant
+    family-names: Mohapatra
+    affiliation: >-
+      PULS, Institute for Theoretical Physics, FAU
+      Erlangen-Nürnberg, 91058, Erlangen, Germany
+  - given-names: Martial
+    family-names: Noirhomme
+    affiliation: >-
+      GRASP, Institute of Physics B5a, University of Liège,
+      B4000 Liège, Belgium
+  - given-names: Andreas
+    family-names: Maier
+    affiliation: >-
+      Pattern Recognition Lab, Department of Computer
+      Science, FAU Erlangen-Nürnberg, Erlangen, Germany
+  - given-names: Nicolas
+    family-names: Vandewalle
+    affiliation: >-
+      GRASP, Institute of Physics B5a, University of Liège,
+      B4000 Liège, Belgium
+  - given-names: Ana Sunčana
+    family-names: Smith
+    affiliation: >-
+      PULS, Institute for Theoretical Physics, FAU
+      Erlangen-Nürnberg, 91058, Erlangen, Germany
+repository-code: 'https://github.com/GRASP-LAB/brainbot-digital-twin'
